@@ -19,17 +19,17 @@
                 <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white leading-tight sm:leading-snug">
                     Akselerasi Penelitian, Inovasi, <br class="hidden sm:inline" />
                     <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-sky-300 to-indigo-300">
-                        dan Kolaborasi Akademik
+                        dan Kolaborasi
                     </span>
                 </h1>
 
                 <p class="text-sm sm:text-base text-slate-300 max-w-2xl mx-auto font-normal leading-relaxed">
-                    Sistem informasi satu pintu untuk mendokumentasikan, menelusuri, dan mempublikasikan seluruh rekam jejak riset, buku ajar, pengabdian masyarakat, paten, dan publikasi bereputasi.
+                    Sistem informasi satu pintu untuk mendokumentasikan, menelusuri, dan mempublikasikan seluruh rekam jejak riset, buku ajar, pengabdian masyarakat, paten, dan publikasi ilmiah.
                 </p>
 
-                <!-- Hero Search Bar -->
+                <!-- Hero Search Bar (Direct Search to Directory) -->
                 <div class="pt-2 max-w-2xl mx-auto">
-                    <form @submit.prevent="openNotice" class="relative flex items-center shadow-lg rounded-2xl">
+                    <form @submit.prevent="submitSearch" class="relative flex items-center shadow-lg rounded-2xl">
                         <Search class="w-4 h-4 text-blue-400 absolute left-4 pointer-events-none" />
                         <input 
                             type="text" 
@@ -47,32 +47,29 @@
                     </form>
                 </div>
 
-                <!-- Action CTA Buttons (Visual Lengkap -> Klik Notice) -->
+                <!-- Action CTA Buttons -->
                 <div class="pt-2 flex flex-wrap items-center justify-center gap-3">
-                    <button 
-                        type="button"
-                        @click="openNotice" 
+                    <Link 
+                        href="/direktori" 
                         class="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs sm:text-sm font-semibold shadow-xs flex items-center gap-2 transition-colors"
                     >
                         <Compass class="w-4 h-4" />
                         <span>Buka Direktori Karya</span>
-                    </button>
-                    <button 
-                        type="button"
-                        @click="openNotice" 
+                    </Link>
+                    <Link 
+                        href="/peneliti" 
                         class="px-5 py-2.5 rounded-xl bg-slate-800/90 hover:bg-slate-700 text-slate-200 text-xs sm:text-sm font-semibold border border-slate-700 flex items-center gap-2 transition-colors"
                     >
                         <Users class="w-4 h-4" />
                         <span>Daftar Peneliti</span>
-                    </button>
-                    <button 
-                        type="button"
-                        @click="openNotice" 
+                    </Link>
+                    <Link 
+                        href="/statistik" 
                         class="px-4 py-2.5 rounded-xl text-slate-400 hover:text-white text-xs sm:text-sm font-medium flex items-center gap-1.5 transition-colors"
                     >
                         <BarChart3 class="w-4 h-4" />
                         <span>Lihat Statistik</span>
-                    </button>
+                    </Link>
                 </div>
             </div>
         </section>
@@ -125,7 +122,7 @@
         <!-- 3. Five Research Pillars -->
         <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-8">
             <div class="text-center max-w-2xl mx-auto space-y-2">
-                <span class="text-xs font-bold uppercase tracking-wider text-blue-600">5 Pilar Output Akademik</span>
+                <span class="text-xs font-bold uppercase tracking-wider text-blue-600">5 Pilar Output Ilmiah</span>
                 <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900">Klasifikasi Luaran Riset & Inovasi</h2>
                 <p class="text-xs sm:text-sm text-slate-500">
                     Setiap karya ilmiah terdokumentasi dengan nomor register, relasi multi-peneliti, tautan bukti digital, dan dokumen laporan resmi.
@@ -134,10 +131,9 @@
 
             <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
                 <!-- 1. Penelitian -->
-                <button 
-                    type="button"
-                    @click="openNotice"
-                    class="text-left bg-white rounded-xl p-5 border border-slate-200 hover:border-emerald-300 hover:shadow-xs transition-all group flex flex-col justify-between space-y-4"
+                <Link 
+                    href="/direktori?type=penelitian"
+                    class="bg-white rounded-xl p-5 border border-slate-200 hover:border-emerald-300 hover:shadow-xs transition-all group flex flex-col justify-between space-y-4"
                 >
                     <div class="space-y-2.5">
                         <div class="w-10 h-10 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center group-hover:scale-105 transition-transform">
@@ -152,13 +148,12 @@
                         <span>{{ stats.total_penelitian || 0 }} Karya</span>
                         <ArrowRight class="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
                     </div>
-                </button>
+                </Link>
 
                 <!-- 2. Publikasi -->
-                <button 
-                    type="button"
-                    @click="openNotice"
-                    class="text-left bg-white rounded-xl p-5 border border-slate-200 hover:border-blue-300 hover:shadow-xs transition-all group flex flex-col justify-between space-y-4"
+                <Link 
+                    href="/direktori?type=publikasi"
+                    class="bg-white rounded-xl p-5 border border-slate-200 hover:border-blue-300 hover:shadow-xs transition-all group flex flex-col justify-between space-y-4"
                 >
                     <div class="space-y-2.5">
                         <div class="w-10 h-10 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center group-hover:scale-105 transition-transform">
@@ -173,13 +168,12 @@
                         <span>{{ stats.total_publikasi || 0 }} Artikel</span>
                         <ArrowRight class="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
                     </div>
-                </button>
+                </Link>
 
                 <!-- 3. PKM -->
-                <button 
-                    type="button"
-                    @click="openNotice"
-                    class="text-left bg-white rounded-xl p-5 border border-slate-200 hover:border-amber-300 hover:shadow-xs transition-all group flex flex-col justify-between space-y-4"
+                <Link 
+                    href="/direktori?type=pkm"
+                    class="bg-white rounded-xl p-5 border border-slate-200 hover:border-amber-300 hover:shadow-xs transition-all group flex flex-col justify-between space-y-4"
                 >
                     <div class="space-y-2.5">
                         <div class="w-10 h-10 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center group-hover:scale-105 transition-transform">
@@ -194,13 +188,12 @@
                         <span>{{ stats.total_pkm || 0 }} Kegiatan</span>
                         <ArrowRight class="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
                     </div>
-                </button>
+                </Link>
 
                 <!-- 4. Buku -->
-                <button 
-                    type="button"
-                    @click="openNotice"
-                    class="text-left bg-white rounded-xl p-5 border border-slate-200 hover:border-violet-300 hover:shadow-xs transition-all group flex flex-col justify-between space-y-4"
+                <Link 
+                    href="/direktori?type=buku"
+                    class="bg-white rounded-xl p-5 border border-slate-200 hover:border-violet-300 hover:shadow-xs transition-all group flex flex-col justify-between space-y-4"
                 >
                     <div class="space-y-2.5">
                         <div class="w-10 h-10 rounded-lg bg-violet-50 text-violet-600 flex items-center justify-center group-hover:scale-105 transition-transform">
@@ -215,13 +208,12 @@
                         <span>{{ stats.total_buku || 0 }} Buku</span>
                         <ArrowRight class="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
                     </div>
-                </button>
+                </Link>
 
                 <!-- 5. HKI & Paten -->
-                <button 
-                    type="button"
-                    @click="openNotice"
-                    class="text-left bg-white rounded-xl p-5 border border-slate-200 hover:border-cyan-300 hover:shadow-xs transition-all group flex flex-col justify-between space-y-4"
+                <Link 
+                    href="/direktori?type=haki"
+                    class="bg-white rounded-xl p-5 border border-slate-200 hover:border-cyan-300 hover:shadow-xs transition-all group flex flex-col justify-between space-y-4"
                 >
                     <div class="space-y-2.5">
                         <div class="w-10 h-10 rounded-lg bg-cyan-50 text-cyan-600 flex items-center justify-center group-hover:scale-105 transition-transform">
@@ -236,7 +228,7 @@
                         <span>{{ stats.total_haki || 0 }} HKI</span>
                         <ArrowRight class="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
                     </div>
-                </button>
+                </Link>
             </div>
         </section>
 
@@ -274,7 +266,7 @@
                     </div>
                     <h3 class="font-bold text-slate-900 text-sm">Analitik & Statistik Visual</h3>
                     <p class="text-slate-500 text-xs leading-relaxed">
-                        Visualisasi grafik tren tahunan dan proporsi publikasi bereputasi untuk pelaporan akreditasi dan evaluasi pimpinan.
+                        Visualisasi grafik tren tahunan dan proporsi publikasi ilmiah untuk pelaporan akreditasi dan evaluasi pimpinan.
                     </p>
                 </div>
             </div>
@@ -291,41 +283,26 @@
                 </div>
 
                 <div class="flex items-center gap-3 z-10 shrink-0">
-                    <button 
-                        type="button"
-                        @click="openNotice" 
+                    <Link 
+                        href="/direktori" 
                         class="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs sm:text-sm font-semibold shadow-xs transition-colors flex items-center gap-1.5"
                     >
                         <span>Jelajahi Direktori</span>
                         <ArrowRight class="w-4 h-4" />
-                    </button>
+                    </Link>
                 </div>
             </div>
         </section>
-
-        <!-- Notice Modal -->
-        <Modal :show="noticeOpen" @close="noticeOpen = false" maxWidth="sm">
-            <template #title>Portal Layanan APIK</template>
-            <template #content>
-                <div class="space-y-3 text-xs text-slate-600 text-center py-3">
-                    <div class="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center mx-auto mb-2">
-                        <ShieldAlert class="w-6 h-6" />
-                    </div>
-                    <p class="font-bold text-slate-800 text-sm">Dalam Pengembangan</p>
-                </div>
-            </template>
-        </Modal>
     </PublicLayout>
 </template>
 
 <script setup>
 import { ref } from 'vue';
-import { Head } from '@inertiajs/vue3';
+import { Head, Link, router } from '@inertiajs/vue3';
 import PublicLayout from '@/Layouts/PublicLayout.vue';
-import Modal from '@/Components/Modal.vue';
 import { 
     Sparkles, Search, ArrowRight, Compass, Users, BarChart3, 
-    FlaskConical, FileText, HandHeart, BookOpen, Award, ShieldAlert 
+    FlaskConical, FileText, HandHeart, BookOpen, Award 
 } from 'lucide-vue-next';
 
 const props = defineProps({
@@ -333,9 +310,8 @@ const props = defineProps({
 });
 
 const quickSearch = ref('');
-const noticeOpen = ref(false);
 
-const openNotice = () => {
-    noticeOpen.value = true;
+const submitSearch = () => {
+    router.get('/direktori', { search: quickSearch.value || undefined });
 };
 </script>

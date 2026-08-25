@@ -19,39 +19,48 @@
                         </Link>
                     </div>
 
-                    <!-- Navigation Links (Desktop - Visual Lengkap, Klik -> Modal Notice) -->
+                    <!-- Navigation Links (Desktop) -->
                     <nav class="hidden md:flex items-center gap-1 text-xs font-medium">
                         <Link 
                             href="/" 
-                            class="px-3 py-1.5 rounded-lg bg-blue-600 text-white font-semibold flex items-center gap-1.5 transition-colors"
+                            :class="[
+                                'px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1.5',
+                                $page.url === '/' ? 'bg-blue-600 text-white font-semibold' : 'text-slate-300 hover:text-white hover:bg-slate-800'
+                            ]"
                         >
                             <Home class="w-3.5 h-3.5" />
                             Beranda
                         </Link>
-                        <button 
-                            type="button"
-                            @click="showLockedNotice = true" 
-                            class="px-3 py-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800 flex items-center gap-1.5 transition-colors"
+                        <Link 
+                            href="/direktori" 
+                            :class="[
+                                'px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1.5',
+                                $page.url.startsWith('/direktori') ? 'bg-blue-600 text-white font-semibold' : 'text-slate-300 hover:text-white hover:bg-slate-800'
+                            ]"
                         >
                             <Compass class="w-3.5 h-3.5" />
                             Direktori Karya
-                        </button>
-                        <button 
-                            type="button"
-                            @click="showLockedNotice = true" 
-                            class="px-3 py-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800 flex items-center gap-1.5 transition-colors"
+                        </Link>
+                        <Link 
+                            href="/peneliti" 
+                            :class="[
+                                'px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1.5',
+                                $page.url.startsWith('/peneliti') ? 'bg-blue-600 text-white font-semibold' : 'text-slate-300 hover:text-white hover:bg-slate-800'
+                            ]"
                         >
                             <Users class="w-3.5 h-3.5" />
                             Daftar Peneliti
-                        </button>
-                        <button 
-                            type="button"
-                            @click="showLockedNotice = true" 
-                            class="px-3 py-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800 flex items-center gap-1.5 transition-colors"
+                        </Link>
+                        <Link 
+                            href="/statistik" 
+                            :class="[
+                                'px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1.5',
+                                $page.url.startsWith('/statistik') ? 'bg-blue-600 text-white font-semibold' : 'text-slate-300 hover:text-white hover:bg-slate-800'
+                            ]"
                         >
                             <BarChart3 class="w-3.5 h-3.5" />
                             Statistik
-                        </button>
+                        </Link>
                     </nav>
 
                     <!-- Auth Actions -->
@@ -96,34 +105,34 @@
                     >
                         Beranda
                     </Link>
-                    <button 
-                        type="button"
-                        class="w-full text-left block px-3 py-1.5 rounded text-slate-200 hover:bg-slate-800"
-                        @click="mobileMenuOpen = false; showLockedNotice = true"
+                    <Link 
+                        href="/direktori" 
+                        class="block px-3 py-1.5 rounded text-slate-200 hover:bg-slate-800"
+                        @click="mobileMenuOpen = false"
                     >
                         Direktori Karya
-                    </button>
-                    <button 
-                        type="button"
-                        class="w-full text-left block px-3 py-1.5 rounded text-slate-200 hover:bg-slate-800"
-                        @click="mobileMenuOpen = false; showLockedNotice = true"
+                    </Link>
+                    <Link 
+                        href="/peneliti" 
+                        class="block px-3 py-1.5 rounded text-slate-200 hover:bg-slate-800"
+                        @click="mobileMenuOpen = false"
                     >
                         Daftar Peneliti
-                    </button>
-                    <button 
-                        type="button"
-                        class="w-full text-left block px-3 py-1.5 rounded text-slate-200 hover:bg-slate-800"
-                        @click="mobileMenuOpen = false; showLockedNotice = true"
+                    </Link>
+                    <Link 
+                        href="/statistik" 
+                        class="block px-3 py-1.5 rounded text-slate-200 hover:bg-slate-800"
+                        @click="mobileMenuOpen = false"
                     >
                         Statistik
-                    </button>
+                    </Link>
                 </div>
             </div>
         </header>
 
         <!-- Main Content Area -->
         <main class="flex-1">
-            <slot :openLockedNotice="() => showLockedNotice = true" />
+            <slot />
         </main>
 
         <!-- Compact Footer -->
