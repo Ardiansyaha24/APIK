@@ -28,6 +28,16 @@
                                 $page.url === '/' ? 'bg-blue-600 text-white font-semibold' : 'text-slate-300 hover:text-white hover:bg-slate-800'
                             ]"
                         >
+                            <Home class="w-3.5 h-3.5" />
+                            Beranda
+                        </Link>
+                        <Link 
+                            href="/direktori" 
+                            :class="[
+                                'px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1.5',
+                                $page.url.startsWith('/direktori') ? 'bg-blue-600 text-white font-semibold' : 'text-slate-300 hover:text-white hover:bg-slate-800'
+                            ]"
+                        >
                             <Compass class="w-3.5 h-3.5" />
                             Direktori Karya
                         </Link>
@@ -65,13 +75,14 @@
                             </Link>
                         </template>
                         <template v-else>
-                            <Link 
-                                href="/login" 
-                                class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800 text-xs font-medium transition-colors"
+                            <button 
+                                type="button"
+                                @click="showLockedNotice = true" 
+                                class="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800 text-xs font-medium transition-colors"
                             >
-                                <Lock class="w-3 h-3 text-slate-400" />
-                                Masuk Admin
-                            </Link>
+                                <Lock class="w-3.5 h-3.5 text-slate-400" />
+                                <span>Masuk Admin</span>
+                            </button>
                         </template>
 
                         <!-- Mobile Menu Button -->
@@ -89,6 +100,13 @@
                 <div v-if="mobileMenuOpen" class="md:hidden py-2 border-t border-slate-800 space-y-1 text-xs">
                     <Link 
                         href="/" 
+                        class="block px-3 py-1.5 rounded text-slate-200 hover:bg-slate-800"
+                        @click="mobileMenuOpen = false"
+                    >
+                        Beranda
+                    </Link>
+                    <Link 
+                        href="/direktori" 
                         class="block px-3 py-1.5 rounded text-slate-200 hover:bg-slate-800"
                         @click="mobileMenuOpen = false"
                     >
@@ -117,25 +135,43 @@
             <slot />
         </main>
 
-        <!-- Compact Footer -->
-        <footer class="bg-white border-t border-slate-200 text-slate-500 text-xs py-6 mt-12">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
-                <div>
-                    <p class="font-bold text-slate-800">APIK — Akselerasi Penelitian, Inovasi, dan Kolaborasi</p>
-                    <p class="text-[11px] text-slate-400">Pusat data terpadu Penelitian, Publikasi, PKM, Buku, dan Kekayaan Intelektual</p>
+        <!-- Modal Pemberitahuan Akses Admin Terkunci Sementara -->
+        <Modal :show="showLockedNotice" @close="showLockedNotice = false" maxWidth="sm">
+            <template #title>Portal Pengelola LP2M</template>
+            <template #content>
+                <div class="space-y-3 text-xs text-slate-600">
+                    <div class="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center mx-auto mb-2">
+                        <ShieldAlert class="w-6 h-6" />
+                    </div>
+                    <p class="font-bold text-slate-800 text-sm text-center">Akses Terkunci Sementara</p>
+                    <p class="text-center text-slate-500 leading-relaxed">
+                        Portal autentikasi pengelola saat ini sedang dalam proses sinkronisasi dan penataan ekosistem data riset kampus.
+                    </p>
+                    <p class="text-center text-[11px] text-slate-400 bg-slate-50 p-2.5 rounded-xl border border-slate-200">
+                        Fitur input dan modifikasi karya akan dibuka penuh pada tahapan peluncuran berikutnya.
+                    </p>
                 </div>
-                <div class="text-[11px] text-slate-400">
-                    © {{ new Date().getFullYear() }} LP2M / Unit Riset & Publikasi.
-                </div>
-            </div>
-        </footer>
+            </template>
+            <template #footer>
+                <button 
+                    type="button" 
+                    @click="showLockedNotice = false" 
+                    class="w-full px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-xs font-semibold shadow-xs transition-colors"
+                >
+                    Saya Mengerti
+                </button>
+            </template>
+        </Modal>
     </div>
 </template>
 
 <script setup>
 import { ref } from 'vue';
 import { Link } from '@inertiajs/vue3';
-import { Compass, Users, BarChart3, LayoutDashboard, Lock, Menu, X } from 'lucide-vue-next';
+import Modal from '@/Components/Modal.vue';
+import { Home, Compass, Users, BarChart3, LayoutDashboard, Lock, Menu, X, ShieldAlert } from 'lucide-vue-next';
 
 const mobileMenuOpen = ref(false);
+const showLockedNotice = ref(false);
 </script>
+

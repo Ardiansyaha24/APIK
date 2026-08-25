@@ -271,7 +271,7 @@ const hasActiveFilter = computed(() => {
 });
 
 const handleSearch = () => {
-    router.get('/', {
+    router.get('/direktori', {
         search: searchForm.search || undefined,
         type: searchForm.type !== 'semua' ? searchForm.type : undefined,
         year: searchForm.year || undefined,

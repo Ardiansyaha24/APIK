@@ -18,87 +18,65 @@
         </div>
 
         <div class="mt-6 sm:mx-auto sm:w-full sm:max-w-md relative z-10 px-4">
-            <div class="bg-white py-8 px-6 sm:px-8 shadow-2xl rounded-2xl border border-slate-200">
-                <form @submit.prevent="submit" class="space-y-4">
+            <div class="bg-white py-8 px-6 sm:px-8 shadow-2xl rounded-2xl border border-slate-200 space-y-4">
+                <!-- Lock Announcement Banner -->
+                <div class="p-3.5 rounded-xl bg-amber-50 border border-amber-200 text-amber-800 text-xs flex items-start gap-2.5">
+                    <ShieldAlert class="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
                     <div>
-                        <label class="block text-xs font-semibold text-slate-700 mb-1">Alamat Email *</label>
+                        <p class="font-bold">Akses Masuk Terkunci Sementara</p>
+                        <p class="text-[11px] text-amber-700 mt-0.5 leading-relaxed">
+                            Proses autentikasi pengelola ditutup sementara selama fase peninjauan & integrasi data awal.
+                        </p>
+                    </div>
+                </div>
+
+                <form class="space-y-4 opacity-60 pointer-events-none">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Alamat Email</label>
                         <div class="relative">
                             <Mail class="w-4 h-4 text-slate-400 absolute left-3 top-3 pointer-events-none" />
                             <input 
                                 type="email" 
-                                v-model="form.email" 
-                                required 
-                                autofocus
+                                disabled
                                 placeholder="admin@apik.local"
-                                class="w-full pl-9 pr-3 py-2.5 rounded-xl border border-slate-300 text-xs sm:text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
+                                class="w-full pl-9 pr-3 py-2.5 rounded-xl border border-slate-300 text-xs sm:text-sm bg-slate-50 outline-none cursor-not-allowed"
                             />
                         </div>
-                        <p v-if="form.errors.email" class="mt-1 text-xs text-rose-600 font-medium">{{ form.errors.email }}</p>
                     </div>
 
                     <div>
-                        <label class="block text-xs font-semibold text-slate-700 mb-1">Kata Sandi *</label>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Kata Sandi</label>
                         <div class="relative">
                             <Lock class="w-4 h-4 text-slate-400 absolute left-3 top-3 pointer-events-none" />
                             <input 
                                 type="password" 
-                                v-model="form.password" 
-                                required 
+                                disabled
                                 placeholder="••••••••"
-                                class="w-full pl-9 pr-3 py-2.5 rounded-xl border border-slate-300 text-xs sm:text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
+                                class="w-full pl-9 pr-3 py-2.5 rounded-xl border border-slate-300 text-xs sm:text-sm bg-slate-50 outline-none cursor-not-allowed"
                             />
                         </div>
-                        <p v-if="form.errors.password" class="mt-1 text-xs text-rose-600 font-medium">{{ form.errors.password }}</p>
-                    </div>
-
-                    <div class="flex items-center justify-between text-xs pt-1">
-                        <label class="flex items-center gap-2 cursor-pointer text-slate-600">
-                            <input type="checkbox" v-model="form.remember" class="rounded text-blue-600 focus:ring-blue-500" />
-                            <span>Ingat sesi saya</span>
-                        </label>
                     </div>
 
                     <button 
-                        type="submit" 
-                        :disabled="form.processing"
-                        class="w-full py-2.5 px-4 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs sm:text-sm shadow-md transition-all hover:shadow-blue-500/25 flex items-center justify-center gap-2 disabled:opacity-50"
+                        type="button" 
+                        disabled
+                        class="w-full py-2.5 px-4 rounded-xl text-xs font-semibold bg-slate-300 text-slate-500 cursor-not-allowed text-center"
                     >
-                        <span v-if="form.processing">Memproses...</span>
-                        <span v-else>Masuk ke Panel Admin</span>
-                        <ArrowRight v-if="!form.processing" class="w-4 h-4" />
+                        Akses Belum Dibuka
                     </button>
                 </form>
 
-                <!-- Demo Credentials Info -->
-                <div class="mt-6 pt-4 border-t border-slate-100 bg-slate-50 p-3 rounded-xl text-center space-y-1">
-                    <p class="text-[11px] font-semibold text-slate-700">Akun Pengelola Bawaan:</p>
-                    <p class="text-xs font-mono text-slate-600">Email: <strong class="text-blue-600">admin@apik.local</strong></p>
-                    <p class="text-xs font-mono text-slate-600">Password: <strong class="text-blue-600">password</strong></p>
+                <div class="pt-2 text-center">
+                    <Link href="/" class="text-xs text-blue-600 hover:text-blue-700 font-semibold hover:underline">
+                        ← Kembali ke Beranda
+                    </Link>
                 </div>
-            </div>
-
-            <div class="mt-6 text-center">
-                <Link href="/" class="text-xs text-slate-400 hover:text-white transition-colors flex items-center justify-center gap-1">
-                    ← Kembali ke Portal Publik
-                </Link>
             </div>
         </div>
     </div>
 </template>
 
 <script setup>
-import { Head, Link, useForm } from '@inertiajs/vue3';
-import { Sparkles, Mail, Lock, ArrowRight } from 'lucide-vue-next';
-
-const form = useForm({
-    email: 'admin@apik.local',
-    password: 'password',
-    remember: true,
-});
-
-const submit = () => {
-    form.post('/login', {
-        onFinish: () => form.reset('password'),
-    });
-};
+import { Head, Link } from '@inertiajs/vue3';
+import { Sparkles, Mail, Lock, ShieldAlert } from 'lucide-vue-next';
 </script>

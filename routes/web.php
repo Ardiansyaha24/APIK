@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Public\HomeController;
 use App\Http\Controllers\Public\DirectoryController;
 use App\Http\Controllers\Public\PenelitiController as PublicPenelitiController;
 use App\Http\Controllers\Public\StatistikController;
@@ -19,7 +20,8 @@ use App\Http\Controllers\Admin\MasterDataController;
 | Public Routes
 |--------------------------------------------------------------------------
 */
-Route::get('/', [DirectoryController::class, 'index'])->name('home');
+Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/direktori', [DirectoryController::class, 'index'])->name('public.direktori');
 Route::get('/peneliti', [PublicPenelitiController::class, 'index'])->name('public.peneliti.index');
 Route::get('/peneliti/{peneliti}', [PublicPenelitiController::class, 'show'])->name('public.peneliti.show');
 Route::get('/statistik', [StatistikController::class, 'index'])->name('public.statistik');
