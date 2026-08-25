@@ -1,5 +1,5 @@
 <template>
-    <div class="min-h-screen flex flex-col bg-slate-50 text-slate-800 font-sans scroll-smooth">
+    <div class="min-h-screen flex flex-col bg-slate-50 text-slate-800 font-sans">
         <!-- Main Header / Navbar (Compact Deep Navy) -->
         <header class="sticky top-0 z-40 bg-[#0F172A] border-b border-slate-800 shadow-sm">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -19,7 +19,7 @@
                         </Link>
                     </div>
 
-                    <!-- Navigation Links (Desktop) -->
+                    <!-- Navigation Links (Desktop - Visual Lengkap, Klik -> Modal Notice) -->
                     <nav class="hidden md:flex items-center gap-1 text-xs font-medium">
                         <Link 
                             href="/" 
@@ -28,20 +28,30 @@
                             <Home class="w-3.5 h-3.5" />
                             Beranda
                         </Link>
-                        <a 
-                            href="#pilar" 
+                        <button 
+                            type="button"
+                            @click="showLockedNotice = true" 
                             class="px-3 py-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800 flex items-center gap-1.5 transition-colors"
                         >
-                            <Layers class="w-3.5 h-3.5" />
-                            5 Pilar Luaran
-                        </a>
-                        <a 
-                            href="#keunggulan" 
+                            <Compass class="w-3.5 h-3.5" />
+                            Direktori Karya
+                        </button>
+                        <button 
+                            type="button"
+                            @click="showLockedNotice = true" 
                             class="px-3 py-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800 flex items-center gap-1.5 transition-colors"
                         >
-                            <Sparkles class="w-3.5 h-3.5" />
-                            Keunggulan
-                        </a>
+                            <Users class="w-3.5 h-3.5" />
+                            Daftar Peneliti
+                        </button>
+                        <button 
+                            type="button"
+                            @click="showLockedNotice = true" 
+                            class="px-3 py-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800 flex items-center gap-1.5 transition-colors"
+                        >
+                            <BarChart3 class="w-3.5 h-3.5" />
+                            Statistik
+                        </button>
                     </nav>
 
                     <!-- Auth Actions -->
@@ -86,20 +96,27 @@
                     >
                         Beranda
                     </Link>
-                    <a 
-                        href="#pilar" 
-                        class="block px-3 py-1.5 rounded text-slate-200 hover:bg-slate-800"
-                        @click="mobileMenuOpen = false"
+                    <button 
+                        type="button"
+                        class="w-full text-left block px-3 py-1.5 rounded text-slate-200 hover:bg-slate-800"
+                        @click="mobileMenuOpen = false; showLockedNotice = true"
                     >
-                        5 Pilar Luaran
-                    </a>
-                    <a 
-                        href="#keunggulan" 
-                        class="block px-3 py-1.5 rounded text-slate-200 hover:bg-slate-800"
-                        @click="mobileMenuOpen = false"
+                        Direktori Karya
+                    </button>
+                    <button 
+                        type="button"
+                        class="w-full text-left block px-3 py-1.5 rounded text-slate-200 hover:bg-slate-800"
+                        @click="mobileMenuOpen = false; showLockedNotice = true"
                     >
-                        Keunggulan
-                    </a>
+                        Daftar Peneliti
+                    </button>
+                    <button 
+                        type="button"
+                        class="w-full text-left block px-3 py-1.5 rounded text-slate-200 hover:bg-slate-800"
+                        @click="mobileMenuOpen = false; showLockedNotice = true"
+                    >
+                        Statistik
+                    </button>
                 </div>
             </div>
         </header>
@@ -124,13 +141,16 @@
 
         <!-- Modal Pemberitahuan Akses Admin Terkunci Sementara -->
         <Modal :show="showLockedNotice" @close="showLockedNotice = false" maxWidth="sm">
-            <template #title>Portal Pengelola LP2M</template>
+            <template #title>Portal Layanan APIK</template>
             <template #content>
                 <div class="space-y-3 text-xs text-slate-600">
                     <div class="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center mx-auto mb-2">
                         <ShieldAlert class="w-6 h-6" />
                     </div>
                     <p class="font-bold text-slate-800 text-sm text-center">Dalam Pengembangan</p>
+                    <p class="text-center text-slate-500 leading-relaxed">
+                        Fitur ini sedang dalam proses sinkronisasi dan integrasi data internal LP2M.
+                    </p>
                 </div>
             </template>
         </Modal>
@@ -141,7 +161,7 @@
 import { ref } from 'vue';
 import { Link } from '@inertiajs/vue3';
 import Modal from '@/Components/Modal.vue';
-import { Home, Layers, Sparkles, LayoutDashboard, Lock, Menu, X, ShieldAlert } from 'lucide-vue-next';
+import { Home, Compass, Users, BarChart3, LayoutDashboard, Lock, Menu, X, ShieldAlert } from 'lucide-vue-next';
 
 const mobileMenuOpen = ref(false);
 const showLockedNotice = ref(false);
