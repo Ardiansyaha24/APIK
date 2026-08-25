@@ -146,15 +146,6 @@
                     <p class="font-bold text-slate-800 text-sm text-center">Dalam Pengembangan</p>
                 </div>
             </template>
-            <template #footer>
-                <button 
-                    type="button" 
-                    @click="showLockedNotice = false" 
-                    class="w-full px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-xs font-semibold shadow-xs transition-colors"
-                >
-                    Saya Mengerti
-                </button>
-            </template>
         </Modal>
     </div>
 </template>
