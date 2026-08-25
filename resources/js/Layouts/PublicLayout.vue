@@ -140,10 +140,9 @@
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
                 <div>
                     <p class="font-bold text-slate-800">APIK — Akselerasi Penelitian, Inovasi, dan Kolaborasi</p>
-                    <p class="text-[11px] text-slate-400">Pusat data terpadu Penelitian, Publikasi, PKM, Buku, dan Kekayaan Intelektual</p>
                 </div>
                 <div class="text-[11px] text-slate-400">
-                    © {{ new Date().getFullYear() }} LP2M / Unit Riset & Publikasi.
+                    © {{ new Date().getFullYear() }} Lembaga Penelitian dan Pengabdian Masyarakat (LP2M).
                 </div>
             </div>
         </footer>
