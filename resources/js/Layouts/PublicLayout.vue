@@ -143,13 +143,7 @@
                     <div class="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center mx-auto mb-2">
                         <ShieldAlert class="w-6 h-6" />
                     </div>
-                    <p class="font-bold text-slate-800 text-sm text-center">Akses Terkunci Sementara</p>
-                    <p class="text-center text-slate-500 leading-relaxed">
-                        Portal autentikasi pengelola saat ini sedang dalam proses sinkronisasi dan penataan ekosistem data riset kampus.
-                    </p>
-                    <p class="text-center text-[11px] text-slate-400 bg-slate-50 p-2.5 rounded-xl border border-slate-200">
-                        Fitur input dan modifikasi karya akan dibuka penuh pada tahapan peluncuran berikutnya.
-                    </p>
+                    <p class="font-bold text-slate-800 text-sm text-center">Dalam Pengembangan</p>
                 </div>
             </template>
             <template #footer>
