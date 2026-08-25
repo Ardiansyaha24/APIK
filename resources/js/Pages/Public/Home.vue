@@ -307,14 +307,11 @@
         <Modal :show="noticeOpen" @close="noticeOpen = false" maxWidth="sm">
             <template #title>Portal Layanan APIK</template>
             <template #content>
-                <div class="space-y-3 text-xs text-slate-600 text-center py-2">
+                <div class="space-y-3 text-xs text-slate-600 text-center py-3">
                     <div class="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center mx-auto mb-2">
                         <ShieldAlert class="w-6 h-6" />
                     </div>
                     <p class="font-bold text-slate-800 text-sm">Dalam Pengembangan</p>
-                    <p class="text-slate-500 leading-relaxed">
-                        Fitur ini sedang dalam proses sinkronisasi dan integrasi data internal LP2M.
-                    </p>
                 </div>
             </template>
         </Modal>
