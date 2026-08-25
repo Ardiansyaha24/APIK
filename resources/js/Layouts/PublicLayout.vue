@@ -61,6 +61,16 @@
                             <BarChart3 class="w-3.5 h-3.5" />
                             Statistik
                         </Link>
+                        <a 
+                            href="https://lp2m.iain-manado.ac.id" 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            class="px-3 py-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800 flex items-center gap-1.5 transition-colors"
+                        >
+                            <Globe class="w-3.5 h-3.5 text-blue-400" />
+                            <span>Website LP2M</span>
+                            <ExternalLink class="w-3 h-3 text-slate-400" />
+                        </a>
                     </nav>
 
                     <!-- Auth Actions -->
@@ -126,6 +136,16 @@
                     >
                         Statistik
                     </Link>
+                    <a 
+                        href="https://lp2m.iain-manado.ac.id" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        class="block px-3 py-1.5 rounded text-blue-400 hover:bg-slate-800 flex items-center justify-between"
+                        @click="mobileMenuOpen = false"
+                    >
+                        <span>Website LP2M</span>
+                        <ExternalLink class="w-3.5 h-3.5" />
+                    </a>
                 </div>
             </div>
         </header>
@@ -166,7 +186,7 @@
 import { ref } from 'vue';
 import { Link } from '@inertiajs/vue3';
 import Modal from '@/Components/Modal.vue';
-import { Home, Compass, Users, BarChart3, LayoutDashboard, Lock, Menu, X, ShieldAlert } from 'lucide-vue-next';
+import { Home, Compass, Users, BarChart3, LayoutDashboard, Lock, Menu, X, ShieldAlert, Globe, ExternalLink } from 'lucide-vue-next';
 
 const mobileMenuOpen = ref(false);
 const showLockedNotice = ref(false);
