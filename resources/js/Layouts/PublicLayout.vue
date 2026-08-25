@@ -1,5 +1,5 @@
 <template>
-    <div class="min-h-screen flex flex-col bg-slate-50 text-slate-800 font-sans">
+    <div class="min-h-screen flex flex-col bg-slate-50 text-slate-800 font-sans scroll-smooth">
         <!-- Main Header / Navbar (Compact Deep Navy) -->
         <header class="sticky top-0 z-40 bg-[#0F172A] border-b border-slate-800 shadow-sm">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -23,44 +23,25 @@
                     <nav class="hidden md:flex items-center gap-1 text-xs font-medium">
                         <Link 
                             href="/" 
-                            :class="[
-                                'px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1.5',
-                                $page.url === '/' ? 'bg-blue-600 text-white font-semibold' : 'text-slate-300 hover:text-white hover:bg-slate-800'
-                            ]"
+                            class="px-3 py-1.5 rounded-lg bg-blue-600 text-white font-semibold flex items-center gap-1.5 transition-colors"
                         >
                             <Home class="w-3.5 h-3.5" />
                             Beranda
                         </Link>
-                        <Link 
-                            href="/direktori" 
-                            :class="[
-                                'px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1.5',
-                                $page.url.startsWith('/direktori') ? 'bg-blue-600 text-white font-semibold' : 'text-slate-300 hover:text-white hover:bg-slate-800'
-                            ]"
+                        <a 
+                            href="#pilar" 
+                            class="px-3 py-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800 flex items-center gap-1.5 transition-colors"
                         >
-                            <Compass class="w-3.5 h-3.5" />
-                            Direktori Karya
-                        </Link>
-                        <Link 
-                            href="/peneliti" 
-                            :class="[
-                                'px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1.5',
-                                $page.url.startsWith('/peneliti') ? 'bg-blue-600 text-white font-semibold' : 'text-slate-300 hover:text-white hover:bg-slate-800'
-                            ]"
+                            <Layers class="w-3.5 h-3.5" />
+                            5 Pilar Luaran
+                        </a>
+                        <a 
+                            href="#keunggulan" 
+                            class="px-3 py-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800 flex items-center gap-1.5 transition-colors"
                         >
-                            <Users class="w-3.5 h-3.5" />
-                            Daftar Peneliti
-                        </Link>
-                        <Link 
-                            href="/statistik" 
-                            :class="[
-                                'px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1.5',
-                                $page.url.startsWith('/statistik') ? 'bg-blue-600 text-white font-semibold' : 'text-slate-300 hover:text-white hover:bg-slate-800'
-                            ]"
-                        >
-                            <BarChart3 class="w-3.5 h-3.5" />
-                            Statistik
-                        </Link>
+                            <Sparkles class="w-3.5 h-3.5" />
+                            Keunggulan
+                        </a>
                     </nav>
 
                     <!-- Auth Actions -->
@@ -105,35 +86,41 @@
                     >
                         Beranda
                     </Link>
-                    <Link 
-                        href="/direktori" 
+                    <a 
+                        href="#pilar" 
                         class="block px-3 py-1.5 rounded text-slate-200 hover:bg-slate-800"
                         @click="mobileMenuOpen = false"
                     >
-                        Direktori Karya
-                    </Link>
-                    <Link 
-                        href="/peneliti" 
+                        5 Pilar Luaran
+                    </a>
+                    <a 
+                        href="#keunggulan" 
                         class="block px-3 py-1.5 rounded text-slate-200 hover:bg-slate-800"
                         @click="mobileMenuOpen = false"
                     >
-                        Daftar Peneliti
-                    </Link>
-                    <Link 
-                        href="/statistik" 
-                        class="block px-3 py-1.5 rounded text-slate-200 hover:bg-slate-800"
-                        @click="mobileMenuOpen = false"
-                    >
-                        Statistik
-                    </Link>
+                        Keunggulan
+                    </a>
                 </div>
             </div>
         </header>
 
         <!-- Main Content Area -->
         <main class="flex-1">
-            <slot />
+            <slot :openLockedNotice="() => showLockedNotice = true" />
         </main>
+
+        <!-- Compact Footer -->
+        <footer class="bg-white border-t border-slate-200 text-slate-500 text-xs py-6 mt-12">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
+                <div>
+                    <p class="font-bold text-slate-800">APIK — Akselerasi Penelitian, Inovasi, dan Kolaborasi</p>
+                    <p class="text-[11px] text-slate-400">Pusat data terpadu Penelitian, Publikasi, PKM, Buku, dan Kekayaan Intelektual</p>
+                </div>
+                <div class="text-[11px] text-slate-400">
+                    © {{ new Date().getFullYear() }} LP2M / Unit Riset & Publikasi.
+                </div>
+            </div>
+        </footer>
 
         <!-- Modal Pemberitahuan Akses Admin Terkunci Sementara -->
         <Modal :show="showLockedNotice" @close="showLockedNotice = false" maxWidth="sm">
@@ -154,9 +141,8 @@
 import { ref } from 'vue';
 import { Link } from '@inertiajs/vue3';
 import Modal from '@/Components/Modal.vue';
-import { Home, Compass, Users, BarChart3, LayoutDashboard, Lock, Menu, X, ShieldAlert } from 'lucide-vue-next';
+import { Home, Layers, Sparkles, LayoutDashboard, Lock, Menu, X, ShieldAlert } from 'lucide-vue-next';
 
 const mobileMenuOpen = ref(false);
 const showLockedNotice = ref(false);
 </script>
-
