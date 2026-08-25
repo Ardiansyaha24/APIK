@@ -28,3 +28,21 @@
 ::-webkit-scrollbar-thumb:hover {
     background: #94a3b8;
 }
+
+/* Global Cursor Pointer (Hand) for All Buttons & Interactive Elements */
+button,
+[role="button"],
+input[type="button"],
+input[type="submit"],
+input[type="reset"],
+select,
+summary,
+a {
+    cursor: pointer;
+}
+
+button:disabled,
+input:disabled,
+[disabled] {
+    cursor: not-allowed !important;
+}
