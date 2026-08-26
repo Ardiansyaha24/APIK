@@ -56,10 +56,12 @@ class HakiController extends Controller
         $hakis = $query->latest('tahun')->latest('id')->paginate(15)->withQueryString();
         $penelitis = Peneliti::where('status', 'aktif')->orderBy('nama_lengkap')->get(['id', 'nama_lengkap', 'nidn']);
 
+        $jenisCiptaanList = \App\Models\JenisCiptaan::orderBy('nama')->pluck('nama')->toArray();
+
         return Inertia::render('Admin/Haki/Index', [
             'hakis' => $hakis,
             'penelitis' => $penelitis,
-            'jenisCiptaanList' => self::JENIS_CIPTAAN,
+            'jenisCiptaanList' => $jenisCiptaanList,
             'filters' => [
                 'search' => $search,
                 'tahun' => $tahun,

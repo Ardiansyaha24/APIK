@@ -67,4 +67,12 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     Route::post('/master/skema', [MasterDataController::class, 'storeSkema'])->name('master.skema.store');
     Route::put('/master/skema/{skema}', [MasterDataController::class, 'updateSkema'])->name('master.skema.update');
     Route::delete('/master/skema/{skema}', [MasterDataController::class, 'destroySkema'])->name('master.skema.destroy');
+
+    Route::post('/master/kategori-publikasi', [MasterDataController::class, 'storeKategoriPublikasi'])->name('master.kategori_publikasi.store');
+    Route::put('/master/kategori-publikasi/{kategoriPublikasi}', [MasterDataController::class, 'updateKategoriPublikasi'])->name('master.kategori_publikasi.update');
+    Route::delete('/master/kategori-publikasi/{kategoriPublikasi}', [MasterDataController::class, 'destroyKategoriPublikasi'])->name('master.kategori_publikasi.destroy');
+
+    Route::post('/master/jenis-ciptaan', [MasterDataController::class, 'storeJenisCiptaan'])->name('master.jenis_ciptaan.store');
+    Route::put('/master/jenis-ciptaan/{jenisCiptaan}', [MasterDataController::class, 'updateJenisCiptaan'])->name('master.jenis_ciptaan.update');
+    Route::delete('/master/jenis-ciptaan/{jenisCiptaan}', [MasterDataController::class, 'destroyJenisCiptaan'])->name('master.jenis_ciptaan.destroy');
 });

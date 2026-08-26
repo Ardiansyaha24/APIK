@@ -28,3 +28,5 @@ Thumbs.db
 /database/*.sqlite
 /database/*.sqlite-journal
 prd.md
+weblp2m.html
+weblp2m_redesign.html

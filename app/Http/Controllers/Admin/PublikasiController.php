@@ -63,11 +63,14 @@ class PublikasiController extends Controller
         $publikasis = $query->latest('tahun')->latest('id')->paginate(15)->withQueryString();
         $penelitis = Peneliti::where('status', 'aktif')->orderBy('nama_lengkap')->get(['id', 'nama_lengkap', 'nidn']);
 
+        $kategoriJurnal = \App\Models\KategoriPublikasi::whereIn('jenis', ['jurnal', 'keduanya'])->pluck('nama')->toArray();
+        $kategoriProsiding = \App\Models\KategoriPublikasi::whereIn('jenis', ['prosiding', 'keduanya'])->pluck('nama')->toArray();
+
         return Inertia::render('Admin/Publikasi/Index', [
             'publikasis' => $publikasis,
             'penelitis' => $penelitis,
-            'kategoriJurnal' => self::KATEGORI_JURNAL,
-            'kategoriProsiding' => self::KATEGORI_PROSIDING,
+            'kategoriJurnal' => $kategoriJurnal,
+            'kategoriProsiding' => $kategoriProsiding,
             'filters' => [
                 'search' => $search,
                 'jenis' => $jenis,

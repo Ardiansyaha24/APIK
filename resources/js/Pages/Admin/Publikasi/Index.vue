@@ -180,20 +180,45 @@
 
                     <!-- Kategori / Tingkat Indeks -->
                     <div>
-                        <label class="block font-semibold text-slate-700 mb-1">Kategori / Tingkat Indeksasi *</label>
-                        <select 
-                            v-model="form.kategori_indeks" 
-                            required
-                            class="w-full px-3 py-2 rounded-xl border border-slate-300 focus:ring-2 focus:ring-blue-500 outline-none bg-white"
-                        >
-                            <option value="">-- Pilih Kategori Indeks --</option>
-                            <template v-if="form.jenis_publikasi === 'jurnal'">
-                                <option v-for="cat in kategoriJurnal" :key="cat" :value="cat">{{ cat }}</option>
-                            </template>
-                            <template v-else>
-                                <option v-for="cat in kategoriProsiding" :key="cat" :value="cat">{{ cat }}</option>
-                            </template>
-                        </select>
+                        <div class="flex items-center justify-between mb-1">
+                            <label class="font-semibold text-slate-700">Kategori / Tingkat Indeksasi *</label>
+                            <button 
+                                type="button" 
+                                @click="isCustomKategori = !isCustomKategori; if (isCustomKategori) { form.kategori_indeks = ''; }"
+                                class="text-[11px] text-blue-600 hover:underline font-semibold cursor-pointer"
+                            >
+                                {{ isCustomKategori ? '← Pilih dari Opsi' : '+ Ketik Kategori Bebas' }}
+                            </button>
+                        </div>
+
+                        <div v-if="!isCustomKategori">
+                            <select 
+                                v-model="form.kategori_indeks" 
+                                required
+                                class="w-full px-3 py-2 rounded-xl border border-slate-300 focus:ring-2 focus:ring-blue-500 outline-none bg-white text-xs"
+                            >
+                                <option value="">-- Pilih Kategori Indeks --</option>
+                                <template v-if="form.jenis_publikasi === 'jurnal'">
+                                    <option v-for="cat in kategoriJurnal" :key="cat" :value="cat">{{ cat }}</option>
+                                </template>
+                                <template v-else>
+                                    <option v-for="cat in kategoriProsiding" :key="cat" :value="cat">{{ cat }}</option>
+                                </template>
+                            </select>
+                        </div>
+                        <div v-else>
+                            <input 
+                                type="text"
+                                list="kategori-indeks-datalist"
+                                v-model="form.kategori_indeks"
+                                required
+                                placeholder="Ketikkan tingkat indeksasi (cth: Scopus Q1, SINTA 2, WOS, dll)..."
+                                class="w-full px-3 py-2 rounded-xl border border-blue-400 focus:ring-2 focus:ring-blue-500 outline-none text-xs bg-blue-50/20"
+                            />
+                            <datalist id="kategori-indeks-datalist">
+                                <option v-for="cat in (form.jenis_publikasi === 'jurnal' ? kategoriJurnal : kategoriProsiding)" :key="cat" :value="cat"></option>
+                            </datalist>
+                        </div>
                     </div>
 
                     <!-- Judul Publikasi -->
@@ -291,10 +316,11 @@ const props = defineProps({
 });
 
 const search = ref(props.filters.search || '');
-const jenis = ref(props.filters.jenis || '');
+const filterJenis = ref(props.filters.jenis || '');
 const drawerOpen = ref(false);
 const isEditing = ref(false);
 const currentId = ref(null);
+const isCustomKategori = ref(false);
 
 const form = useForm({
     jenis_publikasi: 'jurnal',
@@ -310,7 +336,7 @@ const form = useForm({
 const handleSearch = () => {
     router.get('/admin/publikasi', { 
         search: search.value || undefined, 
-        jenis: jenis.value || undefined 
+        jenis: filterJenis.value || undefined 
     }, { preserveState: true, preserveScroll: true });
 };
 
@@ -321,6 +347,7 @@ const handleFileUpload = (e) => {
 const openAddDrawer = () => {
     isEditing.value = false;
     currentId.value = null;
+    isCustomKategori.value = false;
     form.reset();
     form.jenis_publikasi = 'jurnal';
     form.tahun = new Date().getFullYear();
@@ -331,6 +358,7 @@ const openAddDrawer = () => {
 const openEditDrawer = (item) => {
     isEditing.value = true;
     currentId.value = item.id;
+    isCustomKategori.value = false;
     form.jenis_publikasi = item.jenis_publikasi;
     form.kategori_indeks = item.kategori_indeks;
     form.judul = item.judul;

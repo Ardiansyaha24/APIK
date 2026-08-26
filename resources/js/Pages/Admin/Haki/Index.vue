@@ -147,18 +147,44 @@
                         ></textarea>
                     </div>
 
+                    <!-- Jenis Ciptaan -->
                     <div>
-                        <label class="block font-semibold text-slate-700 mb-1">Jenis Ciptaan (UU 28/2014) *</label>
-                        <select 
-                            v-model="form.jenis_ciptaan" 
-                            required
-                            class="w-full px-3 py-2 rounded-xl border border-slate-300 focus:ring-2 focus:ring-cyan-500 outline-none bg-white"
-                        >
-                            <option value="">-- Pilih Jenis Ciptaan --</option>
-                            <option v-for="jenis in jenisCiptaanList" :key="jenis" :value="jenis">
-                                {{ jenis }}
-                            </option>
-                        </select>
+                        <div class="flex items-center justify-between mb-1">
+                            <label class="font-semibold text-slate-700">Jenis Ciptaan (UU 28/2014) *</label>
+                            <button 
+                                type="button" 
+                                @click="isCustomJenis = !isCustomJenis; if (isCustomJenis) { form.jenis_ciptaan = ''; }"
+                                class="text-[11px] text-cyan-600 hover:underline font-semibold cursor-pointer"
+                            >
+                                {{ isCustomJenis ? '← Pilih dari Opsi' : '+ Ketik Jenis Lain' }}
+                            </button>
+                        </div>
+
+                        <div v-if="!isCustomJenis">
+                            <select 
+                                v-model="form.jenis_ciptaan" 
+                                required
+                                class="w-full px-3 py-2 rounded-xl border border-slate-300 focus:ring-2 focus:ring-cyan-500 outline-none bg-white text-xs"
+                            >
+                                <option value="">-- Pilih Jenis Ciptaan --</option>
+                                <option v-for="jenis in jenisCiptaanList" :key="jenis" :value="jenis">
+                                    {{ jenis }}
+                                </option>
+                            </select>
+                        </div>
+                        <div v-else>
+                            <input 
+                                type="text"
+                                list="jenis-ciptaan-datalist"
+                                v-model="form.jenis_ciptaan"
+                                required
+                                placeholder="Ketikkan jenis ciptaan / karya..."
+                                class="w-full px-3 py-2 rounded-xl border border-cyan-400 focus:ring-2 focus:ring-cyan-500 outline-none text-xs bg-cyan-50/20"
+                            />
+                            <datalist id="jenis-ciptaan-datalist">
+                                <option v-for="jenis in jenisCiptaanList" :key="jenis" :value="jenis"></option>
+                            </datalist>
+                        </div>
                     </div>
 
                     <div class="grid grid-cols-2 gap-3">
@@ -262,6 +288,7 @@ const search = ref(props.filters.search || '');
 const drawerOpen = ref(false);
 const isEditing = ref(false);
 const currentId = ref(null);
+const isCustomJenis = ref(false);
 
 const form = useForm({
     nomor_hki: '',
@@ -285,6 +312,7 @@ const handleFileUpload = (e) => {
 const openAddDrawer = () => {
     isEditing.value = false;
     currentId.value = null;
+    isCustomJenis.value = false;
     form.reset();
     form.tahun = new Date().getFullYear();
     form.clearErrors();
@@ -294,6 +322,7 @@ const openAddDrawer = () => {
 const openEditDrawer = (item) => {
     isEditing.value = true;
     currentId.value = item.id;
+    isCustomJenis.value = false;
     form.nomor_hki = item.nomor_hki;
     form.pemegang_hak_cipta = item.pemegang_hak_cipta;
     form.jenis_ciptaan = item.jenis_ciptaan;

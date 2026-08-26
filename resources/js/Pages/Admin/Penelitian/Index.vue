@@ -182,16 +182,40 @@
 
                     <!-- Skema Bantuan -->
                     <div>
-                        <label class="block font-semibold text-slate-700 mb-1">Nama Skema / Program Bantuan</label>
-                        <select 
-                            v-model="form.skema_bantuan_id" 
-                            class="w-full px-3 py-2 rounded-xl border border-slate-300 focus:ring-2 focus:ring-blue-500 outline-none bg-white"
-                        >
-                            <option :value="null">-- Pilih Skema Bantuan --</option>
-                            <option v-for="skema in skemas" :key="skema.id" :value="skema.id">
-                                {{ skema.nama }}
-                            </option>
-                        </select>
+                        <div class="flex items-center justify-between mb-1">
+                            <label class="font-semibold text-slate-700">Nama Skema / Program Bantuan</label>
+                            <button 
+                                type="button" 
+                                @click="isCustomSkema = !isCustomSkema; if (isCustomSkema) { form.skema_bantuan_id = null; } else { form.skema_bantuan_nama = ''; }"
+                                class="text-[11px] text-blue-600 hover:underline font-semibold cursor-pointer"
+                            >
+                                {{ isCustomSkema ? '← Pilih dari Daftar' : '+ Ketik Skema Baru' }}
+                            </button>
+                        </div>
+                        
+                        <div v-if="!isCustomSkema">
+                            <select 
+                                v-model="form.skema_bantuan_id" 
+                                class="w-full px-3 py-2 rounded-xl border border-slate-300 focus:ring-2 focus:ring-blue-500 outline-none bg-white text-xs"
+                            >
+                                <option :value="null">-- Pilih Skema Bantuan --</option>
+                                <option v-for="skema in skemas" :key="skema.id" :value="skema.id">
+                                    {{ skema.nama }}
+                                </option>
+                            </select>
+                        </div>
+                        <div v-else>
+                            <input 
+                                type="text"
+                                list="skema-datalist-penelitian"
+                                v-model="form.skema_bantuan_nama"
+                                placeholder="Ketikkan nama skema bantuan baru / custom..."
+                                class="w-full px-3 py-2 rounded-xl border border-blue-400 focus:ring-2 focus:ring-blue-500 outline-none text-xs bg-blue-50/20"
+                            />
+                            <datalist id="skema-datalist-penelitian">
+                                <option v-for="skema in skemas" :key="skema.id" :value="skema.nama"></option>
+                            </datalist>
+                        </div>
                     </div>
 
                     <!-- Peneliti Multi-select -->
@@ -269,10 +293,12 @@ const search = ref(props.filters.search || '');
 const drawerOpen = ref(false);
 const isEditing = ref(false);
 const currentId = ref(null);
+const isCustomSkema = ref(false);
 
 const form = useForm({
     nomor: '',
     skema_bantuan_id: null,
+    skema_bantuan_nama: '',
     judul: '',
     tahun: new Date().getFullYear(),
     tautan_tagihan: '',
@@ -291,6 +317,7 @@ const handleFileUpload = (e) => {
 const openAddDrawer = () => {
     isEditing.value = false;
     currentId.value = null;
+    isCustomSkema.value = false;
     form.reset();
     form.tahun = new Date().getFullYear();
     form.clearErrors();
@@ -300,8 +327,10 @@ const openAddDrawer = () => {
 const openEditDrawer = (item) => {
     isEditing.value = true;
     currentId.value = item.id;
+    isCustomSkema.value = false;
     form.nomor = item.nomor;
     form.skema_bantuan_id = item.skema_bantuan_id;
+    form.skema_bantuan_nama = '';
     form.judul = item.judul;
     form.tahun = item.tahun;
     form.tautan_tagihan = item.tautan_tagihan;

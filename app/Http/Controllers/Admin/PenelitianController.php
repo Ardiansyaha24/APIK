@@ -52,7 +52,8 @@ class PenelitianController extends Controller
     {
         $validated = $request->validate([
             'nomor' => ['nullable', 'string', 'max:100'],
-            'skema_bantuan_id' => ['nullable', 'exists:skema_bantuans,id'],
+            'skema_bantuan_id' => ['nullable'],
+            'skema_bantuan_nama' => ['nullable', 'string', 'max:255'],
             'judul' => ['required', 'string'],
             'tahun' => ['required', 'integer', 'min:2000', 'max:' . (date('Y') + 1)],
             'tautan_tagihan' => ['nullable', 'url'],
@@ -60,6 +61,15 @@ class PenelitianController extends Controller
             'peneliti_ids' => ['required', 'array', 'min:1'],
             'peneliti_ids.*' => ['exists:penelitis,id'],
         ]);
+
+        if (!empty($validated['skema_bantuan_nama'])) {
+            $skema = SkemaBantuan::firstOrCreate(
+                ['nama' => trim($validated['skema_bantuan_nama'])],
+                ['jenis' => 'penelitian']
+            );
+            $validated['skema_bantuan_id'] = $skema->id;
+        }
+        unset($validated['skema_bantuan_nama']);
 
         if ($request->hasFile('file')) {
             $path = $request->file('file')->store('dokumen/penelitian', 'public');
@@ -85,7 +95,8 @@ class PenelitianController extends Controller
     {
         $validated = $request->validate([
             'nomor' => ['nullable', 'string', 'max:100'],
-            'skema_bantuan_id' => ['nullable', 'exists:skema_bantuans,id'],
+            'skema_bantuan_id' => ['nullable'],
+            'skema_bantuan_nama' => ['nullable', 'string', 'max:255'],
             'judul' => ['required', 'string'],
             'tahun' => ['required', 'integer', 'min:2000', 'max:' . (date('Y') + 1)],
             'tautan_tagihan' => ['nullable', 'url'],
@@ -93,6 +104,15 @@ class PenelitianController extends Controller
             'peneliti_ids' => ['required', 'array', 'min:1'],
             'peneliti_ids.*' => ['exists:penelitis,id'],
         ]);
+
+        if (!empty($validated['skema_bantuan_nama'])) {
+            $skema = SkemaBantuan::firstOrCreate(
+                ['nama' => trim($validated['skema_bantuan_nama'])],
+                ['jenis' => 'penelitian']
+            );
+            $validated['skema_bantuan_id'] = $skema->id;
+        }
+        unset($validated['skema_bantuan_nama']);
 
         if ($request->hasFile('file')) {
             if ($penelitian->file_path && Storage::disk('public')->exists($penelitian->file_path)) {

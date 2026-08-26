@@ -16,7 +16,7 @@ class PenelitiController extends Controller
     {
         $search = $request->query('search', '');
         $prodiId = $request->query('prodi', '');
-        $huruf = $request->query('huruf', '');
+        $fakultasId = $request->query('fakultas', '');
 
         $query = Peneliti::with(['prodi.fakultas'])
             ->withCount(['penelitians', 'bukus', 'pkms', 'hakis', 'publikasis'])
@@ -34,20 +34,24 @@ class PenelitiController extends Controller
             $query->where('prodi_id', $prodiId);
         }
 
-        if ($huruf) {
-            $query->where('nama_lengkap', 'like', "{$huruf}%");
+        if ($fakultasId) {
+            $query->whereHas('prodi', function ($q) use ($fakultasId) {
+                $q->where('fakultas_id', $fakultasId);
+            });
         }
 
         $penelitis = $query->orderBy('nama_lengkap')->get();
         $prodis = Prodi::with('fakultas')->orderBy('nama')->get();
+        $fakultasList = Fakultas::orderBy('nama')->get();
 
         return Inertia::render('Public/Peneliti/Index', [
             'penelitis' => $penelitis,
             'prodis' => $prodis,
+            'fakultasList' => $fakultasList,
             'filters' => [
                 'search' => $search,
                 'prodi' => $prodiId,
-                'huruf' => $huruf,
+                'fakultas' => $fakultasId,
             ],
         ]);
     }
