@@ -115,7 +115,7 @@
                             <tr>
                                 <th class="py-3 px-4 w-12 text-center">#</th>
                                 <th class="py-3 px-4">Nama Peneliti</th>
-                                <th class="py-3 px-4">Program Studi & Fakultas</th>
+                                <th class="py-3 px-4">Bidang Keahlian</th>
                                 <th class="py-3 px-4 text-center">Penelitian</th>
                                 <th class="py-3 px-4 text-center">Publikasi</th>
                                 <th class="py-3 px-4 text-center">HKI</th>
@@ -143,8 +143,7 @@
                                     <p class="text-[10px] text-slate-400 font-mono">NIDN: {{ p.nidn || '-' }}</p>
                                 </td>
                                 <td class="py-3 px-4 text-slate-600">
-                                    <p>{{ p.prodi }}</p>
-                                    <p class="text-[10px] text-slate-400">{{ p.fakultas }}</p>
+                                    <p class="truncate max-w-xs">{{ p.bidang_keahlian || '-' }}</p>
                                 </td>
                                 <td class="py-3 px-4 text-center font-mono">{{ p.penelitian_count }}</td>
                                 <td class="py-3 px-4 text-center font-mono">{{ p.publikasi_count }}</td>

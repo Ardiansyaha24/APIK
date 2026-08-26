@@ -19,10 +19,6 @@
                                 </span>
                             </div>
 
-                            <p class="text-xs sm:text-sm text-slate-300">
-                                {{ peneliti.prodi?.nama }} — {{ peneliti.prodi?.fakultas?.nama }}
-                            </p>
-
                             <p class="text-xs text-slate-400 font-mono">
                                 NIDN / NIP: <span class="text-slate-200">{{ peneliti.nidn || '-' }}</span>
                             </p>

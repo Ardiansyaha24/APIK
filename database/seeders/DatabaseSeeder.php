@@ -21,5 +21,14 @@ class DatabaseSeeder extends Seeder
                 'password' => Hash::make('qwerty12345'),
             ]
         );
+
+        // 2. Akun Admin Rafiud
+        User::updateOrCreate(
+            ['email' => 'rafiud1243@gmail.com'],
+            [
+                'name' => 'Admin Rafiud',
+                'password' => Hash::make('qwerty12345'),
+            ]
+        );
     }
 }

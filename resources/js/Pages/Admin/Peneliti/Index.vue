@@ -1,27 +1,34 @@
 <template>
     <AdminLayout>
-        <template #header>Master Data Peneliti & Dosen</template>
-        <Head title="Master Peneliti — Admin" />
+        <template #header>Pengelolaan Data Peneliti</template>
+        <Head title="Kelola Peneliti — Admin" />
 
         <div class="space-y-6">
-            <!-- Header Actions & Search -->
-            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-white p-4 rounded-2xl border border-slate-200 shadow-xs">
-                <div class="flex items-center gap-3 w-full sm:w-auto">
-                    <div class="relative w-full sm:w-72">
-                        <Search class="w-4 h-4 text-slate-400 absolute left-3 top-3" />
+            <!-- Header Action & Filters -->
+            <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-xs flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
+                <div class="flex-1 flex items-center gap-3">
+                    <!-- Search -->
+                    <div class="relative flex-1 max-w-md">
+                        <Search class="w-4 h-4 text-slate-400 absolute left-3.5 top-3 pointer-events-none" />
                         <input 
                             type="text" 
                             v-model="search" 
-                            @input="handleSearch"
-                            placeholder="Cari nama atau NIDN..."
-                            class="w-full pl-9 pr-3 py-2 text-xs rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none"
+                            @keyup.enter="handleSearch"
+                            placeholder="Cari nama, NIDN, email, atau bidang keahlian..." 
+                            class="w-full pl-10 pr-4 py-2 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:ring-2 focus:ring-blue-500 text-xs transition-all outline-none"
                         />
                     </div>
+                    <button 
+                        @click="handleSearch"
+                        class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-xs font-semibold transition-colors cursor-pointer"
+                    >
+                        Cari
+                    </button>
                 </div>
 
                 <button 
-                    @click="openAddDrawer"
-                    class="w-full sm:w-auto px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-xs font-semibold shadow-xs flex items-center justify-center gap-1.5 transition-colors"
+                    @click="openAddDrawer" 
+                    class="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold shadow-xs transition-colors cursor-pointer"
                 >
                     <Plus class="w-4 h-4" />
                     <span>Tambah Peneliti</span>
@@ -34,9 +41,9 @@
                     <table class="w-full text-xs text-left">
                         <thead class="bg-slate-50 text-slate-600 font-semibold uppercase tracking-wider border-b border-slate-200">
                             <tr>
-                                <th class="py-3 px-4">Nama Lengkap</th>
-                                <th class="py-3 px-4">NIDN / NIP</th>
-                                <th class="py-3 px-4">Program Studi</th>
+                                <th class="py-3 px-4">Nama & Email</th>
+                                <th class="py-3 px-4">NIDN</th>
+                                <th class="py-3 px-4">Bidang Keahlian</th>
                                 <th class="py-3 px-4">Status</th>
                                 <th class="py-3 px-4 text-center">Total Karya</th>
                                 <th class="py-3 px-4 text-right">Aksi</th>
@@ -50,8 +57,7 @@
                                 </td>
                                 <td class="py-3 px-4 font-mono text-slate-700">{{ p.nidn || '-' }}</td>
                                 <td class="py-3 px-4 text-slate-600">
-                                    <p>{{ p.prodi?.nama || '-' }}</p>
-                                    <p class="text-[10px] text-slate-400">{{ p.prodi?.fakultas?.kode }}</p>
+                                    <p class="truncate max-w-xs">{{ p.bidang_keahlian || '-' }}</p>
                                 </td>
                                 <td class="py-3 px-4">
                                     <span 
@@ -70,14 +76,14 @@
                                     <div class="flex items-center justify-end gap-1">
                                         <button 
                                             @click="openEditDrawer(p)" 
-                                            class="p-1.5 text-slate-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                                            class="p-1.5 text-slate-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors cursor-pointer"
                                             title="Edit"
                                         >
                                             <Edit class="w-3.5 h-3.5" />
                                         </button>
                                         <button 
                                             @click="deletePeneliti(p)" 
-                                            class="p-1.5 text-slate-600 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors"
+                                            class="p-1.5 text-slate-600 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors cursor-pointer"
                                             title="Hapus"
                                         >
                                             <Trash2 class="w-3.5 h-3.5" />
@@ -119,7 +125,7 @@
         <!-- Drawer Form (Slide-over) -->
         <Drawer :show="drawerOpen" @close="drawerOpen = false">
             <template #title>{{ isEditing ? 'Edit Data Peneliti' : 'Tambah Peneliti Baru' }}</template>
-            <template #subtitle>Pastikan NIDN dan data afiliasi prodi terisi dengan benar.</template>
+            <template #subtitle>Lengkapi identitas, bidang keahlian, dan ID profil akademik peneliti.</template>
             <template #content>
                 <form @submit.prevent="submitForm" class="space-y-4 text-xs">
                     <div>
@@ -159,69 +165,57 @@
                         </div>
                     </div>
 
-                    <div>
-                        <label class="block font-semibold text-slate-700 mb-1">Program Studi Afiliasi</label>
-                        <select 
-                            v-model="form.prodi_id" 
-                            class="w-full px-3 py-2 rounded-xl border border-slate-300 focus:ring-2 focus:ring-blue-500 outline-none bg-white"
-                        >
-                            <option :value="null">-- Pilih Program Studi --</option>
-                            <option v-for="prodi in prodis" :key="prodi.id" :value="prodi.id">
-                                {{ prodi.nama }} ({{ prodi.fakultas?.nama }})
-                            </option>
-                        </select>
-                    </div>
-
                     <div class="grid grid-cols-2 gap-3">
                         <div>
                             <label class="block font-semibold text-slate-700 mb-1">Alamat Email</label>
                             <input 
                                 type="email" 
                                 v-model="form.email" 
-                                placeholder="dosen@institusi.ac.id"
+                                placeholder="dosen@iain-manado.ac.id"
                                 class="w-full px-3 py-2 rounded-xl border border-slate-300 focus:ring-2 focus:ring-blue-500 outline-none"
                             />
                         </div>
+
                         <div>
-                            <label class="block font-semibold text-slate-700 mb-1">No. WhatsApp / HP</label>
+                            <label class="block font-semibold text-slate-700 mb-1">Nomor WhatsApp / HP</label>
                             <input 
                                 type="text" 
                                 v-model="form.no_hp" 
                                 placeholder="081234567890"
-                                class="w-full px-3 py-2 rounded-xl border border-slate-300 focus:ring-2 focus:ring-blue-500 outline-none font-mono"
+                                class="w-full px-3 py-2 rounded-xl border border-slate-300 focus:ring-2 focus:ring-blue-500 outline-none"
                             />
                         </div>
                     </div>
 
                     <div>
-                        <label class="block font-semibold text-slate-700 mb-1">Bidang Keahlian / Fokus Riset</label>
+                        <label class="block font-semibold text-slate-700 mb-1">Bidang Keahlian / Kepakaran</label>
                         <textarea 
                             v-model="form.bidang_keahlian" 
                             rows="2"
-                            placeholder="Contoh: Kecerdasan Buatan, Image Processing, Data Science"
+                            placeholder="Contoh: Pendidikan Islam, Hukum Keluarga, Ekonomi Syariah, dll."
                             class="w-full px-3 py-2 rounded-xl border border-slate-300 focus:ring-2 focus:ring-blue-500 outline-none"
                         ></textarea>
                     </div>
 
-                    <!-- External IDs -->
-                    <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
-                        <p class="text-[11px] font-bold text-slate-700 uppercase tracking-wider">Identitas Indeksasi Eksternal</p>
+                    <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl space-y-3">
+                        <p class="font-bold text-slate-700">Integrasi ID Profil Akademik</p>
+                        
                         <div class="grid grid-cols-2 gap-2">
                             <div>
-                                <label class="block text-[10px] text-slate-500">SINTA ID</label>
-                                <input type="text" v-model="form.sinta_id" placeholder="6012345" class="w-full px-2.5 py-1.5 rounded-lg border border-slate-300 bg-white" />
+                                <label class="block font-medium text-slate-600 mb-0.5">SINTA ID</label>
+                                <input type="text" v-model="form.sinta_id" placeholder="6012345" class="w-full px-2.5 py-1.5 rounded-lg border border-slate-300 bg-white font-mono text-[11px]" />
                             </div>
                             <div>
-                                <label class="block text-[10px] text-slate-500">Scopus Author ID</label>
-                                <input type="text" v-model="form.scopus_id" placeholder="572019..." class="w-full px-2.5 py-1.5 rounded-lg border border-slate-300 bg-white" />
+                                <label class="block font-medium text-slate-600 mb-0.5">Scopus Author ID</label>
+                                <input type="text" v-model="form.scopus_id" placeholder="572012345" class="w-full px-2.5 py-1.5 rounded-lg border border-slate-300 bg-white font-mono text-[11px]" />
                             </div>
                             <div>
-                                <label class="block text-[10px] text-slate-500">Google Scholar ID</label>
-                                <input type="text" v-model="form.gscholar_id" placeholder="abCD123..." class="w-full px-2.5 py-1.5 rounded-lg border border-slate-300 bg-white" />
+                                <label class="block font-medium text-slate-600 mb-0.5">Google Scholar ID</label>
+                                <input type="text" v-model="form.gscholar_id" placeholder="AbCdEfGAAAAJ" class="w-full px-2.5 py-1.5 rounded-lg border border-slate-300 bg-white font-mono text-[11px]" />
                             </div>
                             <div>
-                                <label class="block text-[10px] text-slate-500">ORCID ID</label>
-                                <input type="text" v-model="form.orcid_id" placeholder="0000-0002-..." class="w-full px-2.5 py-1.5 rounded-lg border border-slate-300 bg-white" />
+                                <label class="block font-medium text-slate-600 mb-0.5">ORCID ID</label>
+                                <input type="text" v-model="form.orcid_id" placeholder="0000-0002-1825-0097" class="w-full px-2.5 py-1.5 rounded-lg border border-slate-300 bg-white font-mono text-[11px]" />
                             </div>
                         </div>
                     </div>
@@ -231,17 +225,16 @@
                 <button 
                     type="button" 
                     @click="drawerOpen = false" 
-                    class="px-4 py-2 rounded-xl text-xs font-semibold text-slate-600 hover:bg-slate-200 transition-colors"
+                    class="px-4 py-2 rounded-xl text-xs font-semibold text-slate-600 hover:bg-slate-200 transition-colors cursor-pointer"
                 >
                     Batal
                 </button>
                 <button 
                     type="button" 
                     @click="submitForm" 
-                    :disabled="form.processing"
-                    class="px-4 py-2 rounded-xl text-xs font-semibold bg-blue-600 hover:bg-blue-500 text-white shadow-xs transition-colors disabled:opacity-50"
+                    class="px-4 py-2 rounded-xl text-xs font-semibold bg-blue-600 text-white hover:bg-blue-500 transition-colors shadow-xs cursor-pointer"
                 >
-                    {{ form.processing ? 'Menyimpan...' : (isEditing ? 'Simpan Perubahan' : 'Tambah Peneliti') }}
+                    {{ isEditing ? 'Simpan Perubahan' : 'Daftarkan Peneliti' }}
                 </button>
             </template>
         </Drawer>
@@ -257,7 +250,6 @@ import { Search, Plus, Edit, Trash2 } from 'lucide-vue-next';
 
 const props = defineProps({
     penelitis: { type: Object, required: true },
-    prodis: { type: Array, default: () => [] },
     filters: { type: Object, default: () => ({}) },
 });
 
@@ -269,7 +261,6 @@ const currentId = ref(null);
 const form = useForm({
     nama_lengkap: '',
     nidn: '',
-    prodi_id: null,
     email: '',
     no_hp: '',
     bidang_keahlian: '',
@@ -292,20 +283,19 @@ const openAddDrawer = () => {
     drawerOpen.value = true;
 };
 
-const openEditDrawer = (peneliti) => {
+const openEditDrawer = (item) => {
     isEditing.value = true;
-    currentId.value = peneliti.id;
-    form.nama_lengkap = peneliti.nama_lengkap;
-    form.nidn = peneliti.nidn;
-    form.prodi_id = peneliti.prodi_id;
-    form.email = peneliti.email;
-    form.no_hp = peneliti.no_hp;
-    form.bidang_keahlian = peneliti.bidang_keahlian;
-    form.sinta_id = peneliti.sinta_id;
-    form.scopus_id = peneliti.scopus_id;
-    form.gscholar_id = peneliti.gscholar_id;
-    form.orcid_id = peneliti.orcid_id;
-    form.status = peneliti.status;
+    currentId.value = item.id;
+    form.nama_lengkap = item.nama_lengkap;
+    form.nidn = item.nidn || '';
+    form.email = item.email || '';
+    form.no_hp = item.no_hp || '';
+    form.bidang_keahlian = item.bidang_keahlian || '';
+    form.sinta_id = item.sinta_id || '';
+    form.scopus_id = item.scopus_id || '';
+    form.gscholar_id = item.gscholar_id || '';
+    form.orcid_id = item.orcid_id || '';
+    form.status = item.status;
     form.clearErrors();
     drawerOpen.value = true;
 };
@@ -322,9 +312,9 @@ const submitForm = () => {
     }
 };
 
-const deletePeneliti = (peneliti) => {
-    if (confirm(`Apakah Anda yakin ingin menghapus data peneliti "${peneliti.nama_lengkap}"?`)) {
-        router.delete(`/admin/peneliti/${peneliti.id}`);
+const deletePeneliti = (item) => {
+    if (confirm(`Apakah Anda yakin ingin menghapus data peneliti "${item.nama_lengkap}"?`)) {
+        router.delete(`/admin/peneliti/${item.id}`);
     }
 };
 </script>

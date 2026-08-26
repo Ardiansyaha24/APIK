@@ -7,20 +7,6 @@
             <!-- Navigation Tabs -->
             <div class="flex items-center gap-2 border-b border-slate-200 overflow-x-auto pb-px scrollbar-none text-xs">
                 <button 
-                    @click="activeTab = 'fakultas'"
-                    :class="[
-                        'px-4 py-2.5 rounded-t-xl font-semibold transition-all border-b-2 flex items-center gap-2 cursor-pointer',
-                        activeTab === 'fakultas' 
-                            ? 'border-blue-600 text-blue-600 bg-white shadow-xs' 
-                            : 'border-transparent text-slate-500 hover:text-slate-900 hover:bg-slate-100/60'
-                    ]"
-                >
-                    <Building2 class="w-4 h-4" />
-                    <span>Fakultas & Prodi</span>
-                    <span class="px-1.5 py-0.5 rounded-full text-[10px] bg-slate-100 font-mono">{{ fakultasList.length }}</span>
-                </button>
-
-                <button 
                     @click="activeTab = 'skema'"
                     :class="[
                         'px-4 py-2.5 rounded-t-xl font-semibold transition-all border-b-2 flex items-center gap-2 cursor-pointer',
@@ -63,82 +49,7 @@
                 </button>
             </div>
 
-            <!-- TAB 1: Fakultas & Program Studi -->
-            <div v-if="activeTab === 'fakultas'" class="bg-white rounded-2xl p-6 border border-slate-200 shadow-xs space-y-5">
-                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-                    <div>
-                        <h2 class="text-base font-bold text-slate-900">Fakultas & Program Studi</h2>
-                        <p class="text-xs text-slate-500">Struktur unit akademik penaung dosen dan peneliti</p>
-                    </div>
-
-                    <div class="flex items-center gap-2">
-                        <button 
-                            @click="openFakultasModal()"
-                            class="px-3.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-white rounded-xl text-xs font-semibold shadow-xs flex items-center gap-1.5 cursor-pointer"
-                        >
-                            <Plus class="w-3.5 h-3.5" />
-                            + Fakultas
-                        </button>
-                        <button 
-                            @click="openProdiModal()"
-                            class="px-3.5 py-1.5 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-xs font-semibold shadow-xs flex items-center gap-1.5 cursor-pointer"
-                        >
-                            <Plus class="w-3.5 h-3.5" />
-                            + Program Studi
-                        </button>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div 
-                        v-for="fak in fakultasList" 
-                        :key="fak.id"
-                        class="p-4 rounded-xl bg-slate-50 border border-slate-200/80 space-y-3"
-                    >
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <h3 class="text-sm font-bold text-slate-800">{{ fak.nama }}</h3>
-                                <p class="text-[10px] text-slate-400 font-mono">Kode: {{ fak.kode || '-' }}</p>
-                            </div>
-                            <div class="flex items-center gap-1">
-                                <button @click="openFakultasModal(fak)" class="p-1 text-slate-400 hover:text-blue-600 cursor-pointer">
-                                    <Edit class="w-3.5 h-3.5" />
-                                </button>
-                                <button @click="deleteFakultas(fak)" class="p-1 text-slate-400 hover:text-rose-600 cursor-pointer">
-                                    <Trash2 class="w-3.5 h-3.5" />
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- Prodi Sub-list -->
-                        <div class="space-y-1.5">
-                            <div 
-                                v-for="prodi in fak.prodis" 
-                                :key="prodi.id"
-                                class="px-3 py-1.5 rounded-lg bg-white border border-slate-200/70 text-xs flex items-center justify-between"
-                            >
-                                <div class="flex items-center gap-2">
-                                    <span class="px-1.5 py-0.2 rounded bg-blue-50 text-blue-700 font-bold text-[10px] font-mono">
-                                        {{ prodi.jenjang }}
-                                    </span>
-                                    <span class="font-medium text-slate-700">{{ prodi.nama }}</span>
-                                </div>
-                                <div class="flex items-center gap-1">
-                                    <button @click="openProdiModal(prodi)" class="p-1 text-slate-400 hover:text-blue-600 cursor-pointer">
-                                        <Edit class="w-3 h-3" />
-                                    </button>
-                                    <button @click="deleteProdi(prodi)" class="p-1 text-slate-400 hover:text-rose-600 cursor-pointer">
-                                        <Trash2 class="w-3 h-3" />
-                                    </button>
-                                </div>
-                            </div>
-                            <p v-if="fak.prodis.length === 0" class="text-[11px] text-slate-400 italic">Belum ada prodi terdaftar.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- TAB 2: Skema Bantuan (Penelitian & PKM) -->
+            <!-- TAB 1: Skema Bantuan (Penelitian & PKM) -->
             <div v-if="activeTab === 'skema'" class="bg-white rounded-2xl p-6 border border-slate-200 shadow-xs space-y-5">
                 <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
                     <div>
@@ -199,7 +110,7 @@
                 </div>
             </div>
 
-            <!-- TAB 3: Kategori Indeksasi Publikasi -->
+            <!-- TAB 2: Kategori Indeksasi Publikasi -->
             <div v-if="activeTab === 'kategori'" class="bg-white rounded-2xl p-6 border border-slate-200 shadow-xs space-y-5">
                 <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
                     <div>
@@ -260,7 +171,7 @@
                 </div>
             </div>
 
-            <!-- TAB 4: Jenis Ciptaan HKI -->
+            <!-- TAB 3: Jenis Ciptaan HKI -->
             <div v-if="activeTab === 'ciptaan'" class="bg-white rounded-2xl p-6 border border-slate-200 shadow-xs space-y-5">
                 <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
                     <div>
@@ -309,66 +220,6 @@
                 </div>
             </div>
         </div>
-
-        <!-- Modal Form Fakultas -->
-        <Modal :show="fakultasModalOpen" @close="fakultasModalOpen = false" maxWidth="sm">
-            <template #title>{{ fakultasEditing ? 'Edit Fakultas' : 'Tambah Fakultas Baru' }}</template>
-            <template #content>
-                <div class="space-y-3 text-xs">
-                    <div>
-                        <label class="block font-semibold text-slate-700 mb-1">Nama Fakultas *</label>
-                        <input type="text" v-model="fakultasForm.nama" placeholder="Contoh: Fakultas Sains dan Teknologi" class="w-full px-3 py-2 rounded-xl border border-slate-300 focus:ring-2 focus:ring-blue-500" />
-                    </div>
-                    <div>
-                        <label class="block font-semibold text-slate-700 mb-1">Kode Singkatan</label>
-                        <input type="text" v-model="fakultasForm.kode" placeholder="FST" class="w-full px-3 py-2 rounded-xl border border-slate-300 focus:ring-2 focus:ring-blue-500 uppercase font-mono" />
-                    </div>
-                </div>
-            </template>
-            <template #footer>
-                <button type="button" @click="fakultasModalOpen = false" class="px-3 py-1.5 text-xs text-slate-600 hover:bg-slate-200 rounded-lg cursor-pointer">Batal</button>
-                <button type="button" @click="submitFakultas" class="px-3.5 py-1.5 text-xs bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-500 cursor-pointer">Simpan</button>
-            </template>
-        </Modal>
-
-        <!-- Modal Form Prodi -->
-        <Modal :show="prodiModalOpen" @close="prodiModalOpen = false" maxWidth="sm">
-            <template #title>{{ prodiEditing ? 'Edit Program Studi' : 'Tambah Program Studi Baru' }}</template>
-            <template #content>
-                <div class="space-y-3 text-xs">
-                    <div>
-                        <label class="block font-semibold text-slate-700 mb-1">Fakultas *</label>
-                        <select v-model="prodiForm.fakultas_id" class="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white">
-                            <option v-for="f in fakultasList" :key="f.id" :value="f.id">{{ f.nama }}</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block font-semibold text-slate-700 mb-1">Nama Program Studi *</label>
-                        <input type="text" v-model="prodiForm.nama" placeholder="Contoh: Teknik Informatika" class="w-full px-3 py-2 rounded-xl border border-slate-300 focus:ring-2 focus:ring-blue-500" />
-                    </div>
-                    <div class="grid grid-cols-2 gap-2">
-                        <div>
-                            <label class="block font-semibold text-slate-700 mb-1">Jenjang *</label>
-                            <select v-model="prodiForm.jenjang" class="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white">
-                                <option value="D3">D3</option>
-                                <option value="S1">S1</option>
-                                <option value="S2">S2</option>
-                                <option value="S3">S3</option>
-                                <option value="Profesi">Profesi</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="block font-semibold text-slate-700 mb-1">Kode</label>
-                            <input type="text" v-model="prodiForm.kode" placeholder="TI" class="w-full px-3 py-2 rounded-xl border border-slate-300 uppercase font-mono" />
-                        </div>
-                    </div>
-                </div>
-            </template>
-            <template #footer>
-                <button type="button" @click="prodiModalOpen = false" class="px-3 py-1.5 text-xs text-slate-600 hover:bg-slate-200 rounded-lg cursor-pointer">Batal</button>
-                <button type="button" @click="submitProdi" class="px-3.5 py-1.5 text-xs bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-500 cursor-pointer">Simpan</button>
-            </template>
-        </Modal>
 
         <!-- Modal Form Skema Bantuan -->
         <Modal :show="skemaModalOpen" @close="skemaModalOpen = false" maxWidth="sm">
@@ -456,97 +307,17 @@ import { ref } from 'vue';
 import { Head, useForm, router } from '@inertiajs/vue3';
 import AdminLayout from '@/Layouts/AdminLayout.vue';
 import Modal from '@/Components/Modal.vue';
-import { Plus, Edit, Trash2, Building2, FlaskConical, FileText, Award } from 'lucide-vue-next';
+import { Plus, Edit, Trash2, FlaskConical, FileText, Award } from 'lucide-vue-next';
 
 const props = defineProps({
-    fakultasList: { type: Array, default: () => [] },
     skemaList: { type: Array, default: () => [] },
     kategoriPublikasiList: { type: Array, default: () => [] },
     jenisCiptaanList: { type: Array, default: () => [] },
 });
 
-const activeTab = ref('fakultas');
+const activeTab = ref('skema');
 
-// 1. Fakultas Form
-const fakultasModalOpen = ref(false);
-const fakultasEditing = ref(false);
-const fakultasId = ref(null);
-const fakultasForm = useForm({ nama: '', kode: '' });
-
-const openFakultasModal = (item = null) => {
-    if (item) {
-        fakultasEditing.value = true;
-        fakultasId.value = item.id;
-        fakultasForm.nama = item.nama;
-        fakultasForm.kode = item.kode || '';
-    } else {
-        fakultasEditing.value = false;
-        fakultasId.value = null;
-        fakultasForm.reset();
-    }
-    fakultasModalOpen.value = true;
-};
-
-const submitFakultas = () => {
-    if (fakultasEditing.value) {
-        fakultasForm.put(`/admin/master/fakultas/${fakultasId.value}`, {
-            onSuccess: () => { fakultasModalOpen.value = false; },
-        });
-    } else {
-        fakultasForm.post('/admin/master/fakultas', {
-            onSuccess: () => { fakultasModalOpen.value = false; fakultasForm.reset(); },
-        });
-    }
-};
-
-const deleteFakultas = (item) => {
-    if (confirm(`Hapus fakultas "${item.nama}" beserta seluruh prodinya?`)) {
-        router.delete(`/admin/master/fakultas/${item.id}`);
-    }
-};
-
-// 2. Prodi Form
-const prodiModalOpen = ref(false);
-const prodiEditing = ref(false);
-const prodiId = ref(null);
-const prodiForm = useForm({ fakultas_id: '', nama: '', jenjang: 'S1', kode: '' });
-
-const openProdiModal = (item = null) => {
-    if (item) {
-        prodiEditing.value = true;
-        prodiId.value = item.id;
-        prodiForm.fakultas_id = item.fakultas_id;
-        prodiForm.nama = item.nama;
-        prodiForm.jenjang = item.jenjang;
-        prodiForm.kode = item.kode || '';
-    } else {
-        prodiEditing.value = false;
-        prodiId.value = null;
-        prodiForm.reset();
-        if (props.fakultasList.length > 0) prodiForm.fakultas_id = props.fakultasList[0].id;
-    }
-    prodiModalOpen.value = true;
-};
-
-const submitProdi = () => {
-    if (prodiEditing.value) {
-        prodiForm.put(`/admin/master/prodi/${prodiId.value}`, {
-            onSuccess: () => { prodiModalOpen.value = false; },
-        });
-    } else {
-        prodiForm.post('/admin/master/prodi', {
-            onSuccess: () => { prodiModalOpen.value = false; prodiForm.reset(); },
-        });
-    }
-};
-
-const deleteProdi = (item) => {
-    if (confirm(`Hapus prodi "${item.nama}"?`)) {
-        router.delete(`/admin/master/prodi/${item.id}`);
-    }
-};
-
-// 3. Skema Bantuan Form
+// 1. Skema Bantuan Form
 const skemaModalOpen = ref(false);
 const skemaEditing = ref(false);
 const skemaId = ref(null);
@@ -585,7 +356,7 @@ const deleteSkema = (item) => {
     }
 };
 
-// 4. Kategori Publikasi Form
+// 2. Kategori Publikasi Form
 const kategoriModalOpen = ref(false);
 const kategoriEditing = ref(false);
 const kategoriId = ref(null);
@@ -624,7 +395,7 @@ const deleteKategori = (item) => {
     }
 };
 
-// 5. Jenis Ciptaan HKI Form
+// 3. Jenis Ciptaan HKI Form
 const ciptaanModalOpen = ref(false);
 const ciptaanEditing = ref(false);
 const ciptaanId = ref(null);

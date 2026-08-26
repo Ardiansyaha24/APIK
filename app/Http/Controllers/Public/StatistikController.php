@@ -64,8 +64,7 @@ class StatistikController extends Controller
         ];
 
         // 4. Top Peneliti Terproduktif
-        $topPeneliti = Peneliti::with(['prodi.fakultas'])
-            ->withCount(['penelitians', 'bukus', 'pkms', 'hakis', 'publikasis'])
+        $topPeneliti = Peneliti::withCount(['penelitians', 'bukus', 'pkms', 'hakis', 'publikasis'])
             ->get()
             ->map(function ($p) {
                 $total = $p->penelitians_count + $p->bukus_count + $p->pkms_count + $p->hakis_count + $p->publikasis_count;
@@ -73,8 +72,7 @@ class StatistikController extends Controller
                     'id' => $p->id,
                     'nama_lengkap' => $p->nama_lengkap,
                     'nidn' => $p->nidn,
-                    'prodi' => $p->prodi?->nama ?? '-',
-                    'fakultas' => $p->prodi?->fakultas?->nama ?? '-',
+                    'bidang_keahlian' => $p->bidang_keahlian ?? '-',
                     'total_karya' => $total,
                     'penelitian_count' => $p->penelitians_count,
                     'publikasi_count' => $p->publikasis_count,

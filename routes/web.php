@@ -56,14 +56,6 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
 
     // Master Data
     Route::get('/master', [MasterDataController::class, 'index'])->name('master.index');
-    Route::post('/master/fakultas', [MasterDataController::class, 'storeFakultas'])->name('master.fakultas.store');
-    Route::put('/master/fakultas/{fakultas}', [MasterDataController::class, 'updateFakultas'])->name('master.fakultas.update');
-    Route::delete('/master/fakultas/{fakultas}', [MasterDataController::class, 'destroyFakultas'])->name('master.fakultas.destroy');
-
-    Route::post('/master/prodi', [MasterDataController::class, 'storeProdi'])->name('master.prodi.store');
-    Route::put('/master/prodi/{prodi}', [MasterDataController::class, 'updateProdi'])->name('master.prodi.update');
-    Route::delete('/master/prodi/{prodi}', [MasterDataController::class, 'destroyProdi'])->name('master.prodi.destroy');
-
     Route::post('/master/skema', [MasterDataController::class, 'storeSkema'])->name('master.skema.store');
     Route::put('/master/skema/{skema}', [MasterDataController::class, 'updateSkema'])->name('master.skema.update');
     Route::delete('/master/skema/{skema}', [MasterDataController::class, 'destroySkema'])->name('master.skema.destroy');
