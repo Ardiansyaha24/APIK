@@ -13,12 +13,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // 1 Akun Utama Super Administrator
+        // 1. Akun Admin Utama
         User::updateOrCreate(
-            ['email' => 'admin@apik.local'],
+            ['email' => 'lp2m@iain-manado.ac.id'],
             [
-                'name' => 'Administrator APIK',
-                'password' => Hash::make('password'),
+                'name' => 'Admin LP2M IAIN Manado',
+                'password' => Hash::make('qwerty12345'),
             ]
         );
     }
